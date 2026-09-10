@@ -1,0 +1,45 @@
+CREATE DATABASE IF NOT EXISTS kasir_toko CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE kasir_toko;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama_pengguna VARCHAR(100) NOT NULL,
+    nama_toko VARCHAR(150) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE barang (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    foto VARCHAR(255) DEFAULT NULL,
+    nama_barang VARCHAR(150) NOT NULL,
+    harga_modal DECIMAL(15,2) NOT NULL DEFAULT 0,
+    harga_jual DECIMAL(15,2) NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_barang_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE penjualan (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    total DECIMAL(15,2) NOT NULL,
+    uang_bayar DECIMAL(15,2) NOT NULL,
+    kembalian DECIMAL(15,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_penjualan_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE penjualan_detail (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    penjualan_id INT NOT NULL,
+    barang_id INT NULL,
+    nama_barang VARCHAR(150) NOT NULL,
+    harga_jual DECIMAL(15,2) NOT NULL,
+    qty INT NOT NULL,
+    subtotal DECIMAL(15,2) NOT NULL,
+    CONSTRAINT fk_detail_penjualan FOREIGN KEY (penjualan_id) REFERENCES penjualan(id) ON DELETE CASCADE,
+    CONSTRAINT fk_detail_barang FOREIGN KEY (barang_id) REFERENCES barang(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
