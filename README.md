@@ -55,7 +55,7 @@ Tabel yang digunakan:
 ## Video Demonstrasi
 Link video demonstrasi:
 
-`Belum ditambahkan`
+(https://drive.google.com/drive/folders/1TP2dUj2eRMiFO9Y4fJQWpXCXIS5fDdlY)
 
 ## Repository
 Repository ini berisi source code dan database aplikasi TokoKita Kasir.
